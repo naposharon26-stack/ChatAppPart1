@@ -82,4 +82,27 @@ public class LoginTest {
 
         assertFalse(login.checkPasswordComplexity("password1!"));
     }
+// Test 7: Password has no number
+    @Test
+    public void testPasswordWithoutNumber() {
+        Login login = new Login();
+
+        assertFalse(login.checkPasswordComplexity("Password!"));
+    }
+
+    // Test 8: Password has no special character
+    @Test
+    public void testPasswordWithoutSpecialCharacter() {
+        Login login = new Login();
+
+        assertFalse(login.checkPasswordComplexity("Password1"));
+    }
+
+    // Test 9: Valid cell phone number
+    @Test
+    public void testValidCellPhoneNumber() {
+        Login login = new Login();
+
+        assertTrue(login.checkCellPhoneNumber("+27838968976"));
+    }
 }
