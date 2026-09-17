@@ -131,4 +131,45 @@ public class LoginTest {
                 result
         );
     }
+// Test 12: Failed registration with invalid username
+    @Test
+    public void testFailedRegistration() {
+        Login login = new Login();
+
+        String result = login.registerUser(
+                "kyle123",
+                "Password1!",
+                "+27838968976"
+        );
+
+        assertEquals(Login.USERNAME_FAILURE, result);
+    }
+
+    // Test 13: Successful login
+    @Test
+    public void testSuccessfulLogin() {
+        Login login = new Login("Kyle", "Smith");
+
+        login.registerUser(
+                "kyl_1",
+                "Password1!",
+                "+27838968976"
+        );
+
+        assertTrue(login.loginUser("kyl_1", "Password1!"));
+    }
+
+    // Test 14: Failed login with incorrect password
+    @Test
+    public void testFailedLogin() {
+        Login login = new Login("Kyle", "Smith");
+
+        login.registerUser(
+                "kyl_1",
+                "Password1!",
+                "+27838968976"
+        );
+
+        assertFalse(login.loginUser("kyl_1", "WrongPassword1!"));
+    }
 }
