@@ -105,4 +105,30 @@ public class LoginTest {
 
         assertTrue(login.checkCellPhoneNumber("+27838968976"));
     }
+  // Test 10: Cell phone number without international code
+    @Test
+    public void testCellPhoneWithoutInternationalCode() {
+        Login login = new Login();
+
+        assertFalse(login.checkCellPhoneNumber("0838968976"));
+    }
+
+    // Test 11: Successful registration
+    @Test
+    public void testSuccessfulRegistration() {
+        Login login = new Login();
+
+        String result = login.registerUser(
+                "kyl_1",
+                "Password1!",
+                "+27838968976"
+        );
+
+        assertEquals(
+                Login.USERNAME_SUCCESS + " "
+                + Login.PASSWORD_SUCCESS + " "
+                + Login.CELL_SUCCESS,
+                result
+        );
+    }
 }
