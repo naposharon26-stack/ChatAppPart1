@@ -1,4 +1,4 @@
-/*
+/**
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  */
 
@@ -6,54 +6,57 @@ package com.mycompany.chatapppart1;
 import java.util.Scanner;
 
 /**
- *
  * @author Student
+ */
+/**
+ * Bechtold, S., Brannen, S., Link, J., Merdes, M., Rancourt, J. de and Stein, C. (2025) JUnit 5 User Guide. Available at: https://docs.junit.org/5.13.2/user-guide/index.html (Accessed 17 September 2026).
  */
 public class ChatAppPart1 {
 
     public static void main(String[] args) {
-       Scanner input = new Scanner(System.in);
+         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("=== Chat App Registration ===");
+        System.out.println("=== Chat App: Registration ===");
 
-        System.out.print("Enter your first name: ");
-        String firstName = input.nextLine();
+        System.out.print("Enter first name: ");
+        String firstName = scanner.nextLine();
 
-        System.out.print("Enter your last name: ");
-        String lastName = input.nextLine();
+        System.out.print("Enter last name: ");
+        String lastName = scanner.nextLine();
 
-        Login login = new Login(firstName, lastName);
+        System.out.print("Enter username (must contain '_' and be <= 5 characters): ");
+        String username = scanner.nextLine();
 
-        // Keep asking until the details are valid and the user is registered.
-        do {
-            System.out.print("Enter a username: ");
-            String username = input.nextLine();
+        System.out.print("Enter password (min 8 chars, 1 capital, 1 number, 1 special char): ");
+        String password = scanner.nextLine();
 
-            System.out.print("Enter a password: ");
-            String password = input.nextLine();
+        System.out.print("Enter South African cell number (e.g. +27838968976): ");
+        String cellPhoneNumber = scanner.nextLine();
 
-            System.out.print("Enter your cell phone number (e.g. +27838968976): ");
-            String cellPhoneNumber = input.nextLine();
+        Login login = new Login(firstName, lastName, username, password, cellPhoneNumber);
 
-            System.out.println(login.registerUser(username, password, cellPhoneNumber));
+        System.out.println();
+        System.out.println(login.getUsernameMessage());
+        System.out.println(login.getPasswordMessage());
+        System.out.println(login.getCellPhoneMessage());
+
+        if (login.checkUserName() && login.checkPasswordComplexity() && login.checkCellPhoneNumber()) {
+            login.registerUser();
+            System.out.println("Registration successful!");
+
             System.out.println();
+            System.out.println("=== Chat App: Login ===");
+            System.out.print("Enter username: ");
+            String loginUsername = scanner.nextLine();
+            System.out.print("Enter password: ");
+            String loginPassword = scanner.nextLine();
 
-        } while (login.getUsername() == null);
-
-        System.out.println("=== Chat App Login ===");
-
-        boolean loggedIn = false;
-        while (!loggedIn) {
-            System.out.print("Username: ");
-            String enteredUsername = input.nextLine();
-
-            System.out.print("Password: ");
-            String enteredPassword = input.nextLine();
-
-            loggedIn = login.loginUser(enteredUsername, enteredPassword);
-            System.out.println(login.returnLoginStatus(loggedIn));
+            boolean success = login.loginUser(loginUsername, loginPassword);
+            System.out.println(login.returnLoginStatus(success));
+        } else {
+            System.out.println("Registration failed. Please fix the errors above and try again.");
         }
 
-        input.close();
+        scanner.close();
     }
 }
