@@ -59,4 +59,27 @@ public class LoginTest {
 
         assertFalse(login.checkUserName("kyle_123"));
     }
+  // Test 4: Valid password
+    @Test
+    public void testValidPassword() {
+        Login login = new Login();
+
+        assertTrue(login.checkPasswordComplexity("Password1!"));
+    }
+
+    // Test 5: Password is too short
+    @Test
+    public void testPasswordTooShort() {
+        Login login = new Login();
+
+        assertFalse(login.checkPasswordComplexity("Pass1!"));
+    }
+
+    // Test 6: Password has no capital letter
+    @Test
+    public void testPasswordWithoutCapital() {
+        Login login = new Login();
+
+        assertFalse(login.checkPasswordComplexity("password1!"));
+    }
 }
