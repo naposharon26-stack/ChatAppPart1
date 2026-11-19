@@ -1,4 +1,4 @@
-QuickChat – Part 3: Store Data and Display Task
+QuickChat – Part 3
 
 Overview
 QuickChat is a Java console chat application built with Maven in NetBeans.
