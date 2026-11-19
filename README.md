@@ -1,150 +1,104 @@
- Chat App Part 1
+QuickChat – Part 3: Store Data and Display Task
 
- Project Overview
+Overview
+QuickChat is a Java console chat application built with Maven in NetBeans.
+Part 1 added registration and login, Part 2 added sending messages, and
+Part 3 (this part) adds arrays, JSON storage and a "Stored Messages" menu.
 
-This project is a Java-based Chat Application developed as part of a programming project. Part 1 focuses on user registration, validation and login functionality.
+Learning outcomes covered in Part 3:
+- Handling and manipulating strings
+- Creating and working with arrays
 
-The application allows a user to enter their personal details, create a username and password, provide a South African cellphone number, and then log in using their registered details.
+What I added in Part 3
 
-Features
+1. Arrays (no hard-coding)
+A new class, `MessageManager`, holds five `ArrayList`s. They are filled while
+the program runs, never hard-coded:
 
-The application includes the following features:
+ Array | Contents 
 
-* User registration
-* First name and last name capture
-* Username validation
-* Password complexity validation
-* South African cellphone number validation
-* Registration status messages
-* User login
-* Successful and unsuccessful login messages
-* JUnit 5 unit tests
+Sent messages | All messages that were sent 
+Disregarded messages | All messages that were disregarded 
+Stored messages | Messages read from the JSON file (and newly stored ones) 
+Message hashes | The hash of every message 
+Message IDs | The ID of every message 
 
- Validation Rules
+Messages are added with `addMessage(message, flag)`, where the flag is
+`Sent`, `Stored` or `Disregard`.
 
-Username
+ 2. Reading the JSON file into an array
+Messages stored with option 3 ("Store Message") are written to
+`storedMessages.json` by the Part 2 `Message` class. When the app starts,
+`MessageManager.loadStoredMessages()` reads this file into the stored messages
+array using the `org.json` library
+(org.json (2024) *JSON-java, JSONObject documentation*.
+Available at: https://stleary.github.io/JSON-java/org/json/JSONObject.html).
 
-The username must:
+ 3. New main menu option: "4) Stored Messages"
+The sub-menu lets the user:
 
-* Contain an underscore (`_`)
-* Be no more than 5 characters long
+| Option | Feature |
+a | Display the sender and recipient of all stored messages |
+b | Display the longest stored message |
+c | Search for a message ID and display the recipient and message |
+d | Search all sent or stored messages for a particular recipient |
+e | Delete a message using its message hash (the JSON file is updated too) |
+f | Display a report with the full details of all stored messages |
+g | Return to the main menu |
 
-Example of a valid username:
+A matching report for sent messages is also available (`displaySentReport()`).
 
-`kyl_1`
+Files
+Main code (`src/main/java/com/mycompany/chatapppart1`):
+- `ChatAppPart1.java` – main class; menu now includes option 4 and fills the arrays
+- `MessageManager.java` – *new*: the arrays and the Stored Messages features
+- `Message.java` – Part 2 (unchanged)
+- `Login.java` – Part 1 (unchanged)
 
- Password
+Tests (`src/test/java/com/mycompany/chatapppart1`):
+- `MessageManagerTest.java` – *new*: Part 3 unit tests
+- `MessageTest.java`, `LoginTest.java` – earlier parts (unchanged)
 
-The password must:
+Data file in the project root:
+- `storedMessages.json`
 
-* Contain at least 8 characters
-* Contain at least one capital letter
-* Contain at least one number
-* Contain at least one special character
+ Unit tests
+`MessageManagerTest` uses the five test data messages from the brief:
 
-Example of a valid password:
+| # | Recipient | Message | Flag |
+| 1 | +27834557896 | Did you get the cake? | Sent |
+| 2 | +27838884567 | Where are you? You are late! I have asked you to be on time. | Stored |
+| 3 | +27834484567 | Yohoooo, I am at your gate. | Disregard |
+| 4 | Developer 0838884567 | It is dinner time! | Sent |
+| 5 | +27838884567 | Ok, I am leaving without you. | Stored |
 
-`Password1!`
+Tests (11 in total):
+- Sent messages array is correctly populated (messages 1–4)
+- Disregarded, stored, hash and ID arrays are populated
+- Display the longest message
+- Search for a message ID (`0838884567` returns "It is dinner time!")
+- Search all messages for a recipient (`+27838884567`)
+- Delete a message using its hash (message 2)
+- Delete with an unknown hash
+- Display report (stored) and sent report
+- Stored messages are read from the JSON file into the array
+- A deleted message is removed from the JSON file
 
-Cellphone Number
+Expected delete output:
+`Message: "Where are you? You are late! I have asked you to be on time" successfully deleted.`
 
-The cellphone number must:
+ How to run
+1. Open the project in NetBeans (the Maven dependencies `org.json` and
+   JUnit 5 must be in `pom.xml`).
+2. Run `ChatAppPart1` (right-click the project, *Run*).
+3. Register, log in, then use the menu:
+   `1) Send Messages  2) Show recently sent messages  3) Quit  4) Stored Messages`
+4. To run the tests, right-click the project and choose *Test*.
 
-* Use the South African international country code `+27`
-* Contain between 1 and 10 digits after the country code
-
-Example:
-
-`+27838968976`
-
- Project Files
-
-The project contains the following main files:
-
-`ChatAppPart1.java`
-
-This is the main application file. It:
-
-* Displays the registration screen
-* Collects user information
-* Creates a `Login` object
-* Checks the registration details
-* Registers the user
-* Allows the user to log in
-* Displays the login result
-
- `Login.java`
-
-This class contains the main registration and authentication functionality.
-
-It includes methods such as:
-
-* `checkUserName()`
-* `checkPasswordComplexity()`
-* `checkCellPhoneNumber()`
-* `registerUser()`
-* `loginUser()`
-* `returnLoginStatus()`
-
- `LoginTest.java`
-
-This class contains 14 JUnit 5 tests used to test the functionality of the `Login` class.
-
-The tests cover:
-
-1. Valid username
-2. Username without an underscore
-3. Username longer than five characters
-4. Valid password
-5. Password that is too short
-6. Password without a capital letter
-7. Password without a number
-8. Password without a special character
-9. Valid cellphone number
-10. Cellphone number without an international code
-11. Successful registration
-12. Failed registration
-13. Successful login
-14. Failed login
-
-Technologies Used
-
-Java
-NetBeans IDE
-JUnit 5
-Regular Expressions (Regex)
-
- How to Run the Application
-
-1. Clone or download the repository.
-2. Open the project in NetBeans.
-3. Make sure all Java files are included in the project.
-4. Run `ChatAppPart1.java`.
-5. Enter the requested registration details.
-6. If all details are valid, the application will allow the user to log in.
-
- How to Run the Tests
-
-1. Open the project in NetBeans.
-2. Make sure JUnit 5 is configured.
-3. Open `LoginTest.java`.
-4. Run the test class.
-5. The 14 tests should execute and display their results.
-
- Example
-
-A valid registration could use:
-
-```text
-First name: Kyle
-Last name: Smith
-Username: kyl_1
-Password: Password1!
-Cell phone number: +27838968976
-```
-
-After successful registration, the user can enter the same username and password to log in.
-
- References
-
-Oracle (2026) Pattern (Java SE 24 & JDK 24). Available at: https://docs.oracle.com/en/java/javase/24
+Notes and assumptions
+- Message 4 (Developer `0838884567`) has no international code, so its number
+  is used as its message ID in the tests.
+- When the JSON file is read, `org.json` does not keep the file's order, so
+  stored messages may be listed in a different order after a restart.
+- `storedMessages.json` must sit in the project root (next to `pom.xml`). If it
+  is missing, it is created the first time a message is stored.
