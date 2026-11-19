@@ -16,13 +16,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * Part 3: holds the arrays of messages and the "Stored Messages" features.
- * Nothing is hard-coded; every array is populated through addMessage() or
- * loadStoredMessages().
+ * 
+ * 
+ * 
  *
- * JSON reading uses the org.json library (already a dependency of the project):
- * org.json (2024) JSON-java, JSONObject documentation.
- * Available at: https://stleary.github.io/JSON-java/org/json/JSONObject.html
+ * 
+ * 
+ * 
  *
  * @author Student
  */
